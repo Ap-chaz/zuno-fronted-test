@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Lock, CheckCircle2, Users } from "lucide-react";
-import zunoLogo from "@/assets/zuno-logo-new.png.asset.json";
+import zunoLogo from "@/assets/zuno-logo-new.png";
 import { Logo } from "@/components/zuno/Logo";
 import { ThemeToggle } from "@/components/zuno/ThemeToggle";
 
@@ -33,7 +33,7 @@ function Welcome() {
 
         <div className="relative">
           <div className="mx-auto grid h-32 w-32 place-items-center">
-            <img src={zunoLogo.url} alt="ZUNO" className="h-full w-full object-contain" />
+            <img src={zunoLogo} alt="ZUNO" className="h-full w-full object-contain" />
           </div>
 
 
