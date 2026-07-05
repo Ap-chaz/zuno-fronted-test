@@ -3,6 +3,7 @@ import { Shield, Users, Globe, Award, ArrowRight } from "lucide-react";
 import { TopBar } from "@/components/zuno/TopBar";
 import { PhoneFrame } from "@/components/zuno/PhoneFrame";
 import { Logo } from "@/components/zuno/Logo";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/about")({
   head: () => ({ meta: [{ title: "About — ZUNO" }, { name: "description", content: "Why ZUNO exists — building trust in online payments across Africa." }] }),
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/about")({
 });
 
 function About() {
+  const { isAuthenticated } = useAuth();
   return (
     <PhoneFrame>
       <TopBar title="About ZUNO" back="/app/account" />
@@ -39,9 +41,11 @@ function About() {
           <KPI v="<24h" l="Disputes" />
         </div>
 
-        <Link to="/auth/signup" className="mt-8 flex h-14 items-center justify-center gap-2 rounded-2xl bg-gradient-gold text-base font-semibold text-gold-foreground shadow-gold">
-          Join ZUNO <ArrowRight className="h-5 w-5" />
-        </Link>
+        {!isAuthenticated && (
+          <Link to="/auth/signup" className="mt-8 flex h-14 items-center justify-center gap-2 rounded-2xl bg-gradient-gold text-base font-semibold text-gold-foreground shadow-gold">
+            Join ZUNO <ArrowRight className="h-5 w-5" />
+          </Link>
+        )}
       </div>
     </PhoneFrame>
   );
