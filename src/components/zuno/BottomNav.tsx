@@ -1,29 +1,32 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, Store, LayoutDashboard, Truck, Wallet } from "lucide-react";
 import type { ComponentType } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
+import type { TranslationKey } from "@/lib/i18n/translations";
 
-type Item = { to: string; label: string; icon: ComponentType<{ className?: string }>; matchPrefix?: string };
+type Item = { to: string; labelKey: TranslationKey; icon: ComponentType<{ className?: string }>; matchPrefix?: string };
 
 const buyerItems: Item[] = [
-  { to: "/app", label: "Home", icon: Home },
-  { to: "/app/sellers", label: "Sellers", icon: Store },
-  { to: "/app/track", label: "Tracking", icon: Truck, matchPrefix: "/app/track" },
+  { to: "/app", labelKey: "nav_home", icon: Home },
+  { to: "/app/sellers", labelKey: "nav_sellers", icon: Store },
+  { to: "/app/track", labelKey: "nav_tracking", icon: Truck, matchPrefix: "/app/track" },
 ];
 
 const sellerItems: Item[] = [
-  { to: "/seller", label: "Overview", icon: LayoutDashboard },
-  { to: "/seller/deliveries", label: "Orders", icon: Truck },
-  { to: "/seller/transactions", label: "Payouts", icon: Wallet },
+  { to: "/seller", labelKey: "nav_overview", icon: LayoutDashboard },
+  { to: "/seller/deliveries", labelKey: "nav_orders", icon: Truck },
+  { to: "/seller/transactions", labelKey: "nav_payouts", icon: Wallet },
 ];
 
 export function BottomNav({ variant = "buyer" }: { variant?: "buyer" | "seller" }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { t } = useLanguage();
   const items = variant === "seller" ? sellerItems : buyerItems;
 
   return (
     <nav aria-label={variant === "seller" ? "Seller navigation" : "Main navigation"} className="sticky bottom-0 z-30 mt-auto border-t border-border/60 bg-surface/95 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl">
       <ul className="grid grid-cols-3 gap-1">
-        {items.map(({ to, label, icon: Icon, matchPrefix }) => {
+        {items.map(({ to, labelKey, icon: Icon, matchPrefix }) => {
           const prefix = matchPrefix || to;
           const active = pathname === to || (to !== "/app" && to !== "/seller" && pathname.startsWith(prefix));
           const exactRoot = (to === "/app" || to === "/seller") && pathname === to;
@@ -40,7 +43,7 @@ export function BottomNav({ variant = "buyer" }: { variant?: "buyer" | "seller" 
                 <span className={`grid h-9 w-9 place-items-center rounded-xl transition-all ${isActive ? "bg-gold/15" : ""}`}>
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
-                {label}
+                {t(labelKey)}
               </Link>
             </li>
           );

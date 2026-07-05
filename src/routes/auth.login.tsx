@@ -9,6 +9,7 @@ import { TopBar } from "@/components/zuno/TopBar";
 import { PhoneFrame } from "@/components/zuno/PhoneFrame";
 import { getRole, setRole } from "@/lib/zuno-role";
 import { useAuth } from "@/hooks/useAuth";
+import { hasRegisteredBiometric, verifyBiometric } from "@/lib/webauthn";
 
 type LoginSearch = { redirect?: string };
 
@@ -29,8 +30,9 @@ export const Route = createFileRoute("/auth/login")({
 function Login() {
   const navigate = useNavigate();
   const { redirect } = useSearch({ from: "/auth/login" });
-  const { login } = useAuth();
+  const { login, restoreSession } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [isVerifyingBiometric, setIsVerifyingBiometric] = useState(false);
   const {
     register,
     handleSubmit,
@@ -60,8 +62,29 @@ function Login() {
     }
   };
 
-  const handleBiometrics = () => {
-    toast.info("Biometric login is coming soon — please log in with your password for now.");
+  const handleBiometrics = async () => {
+    if (!hasRegisteredBiometric()) {
+      toast.info("Set up biometric login from Settings after you log in with your password first.");
+      return;
+    }
+    setIsVerifyingBiometric(true);
+    try {
+      const verified = await verifyBiometric();
+      if (!verified) {
+        toast.error("Biometric verification was cancelled.");
+        return;
+      }
+      const restored = restoreSession();
+      if (!restored) {
+        toast.error("No saved session on this device — please log in with your password.");
+        return;
+      }
+      routeAfterLogin();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Biometric verification failed.");
+    } finally {
+      setIsVerifyingBiometric(false);
+    }
   };
 
   return (
@@ -108,9 +131,11 @@ function Login() {
         <button
           type="button"
           onClick={handleBiometrics}
-          className="flex h-14 items-center justify-center gap-2 rounded-2xl border border-border bg-surface/60 text-base font-semibold transition-colors hover:bg-surface-2"
+          disabled={isVerifyingBiometric}
+          className="flex h-14 items-center justify-center gap-2 rounded-2xl border border-border bg-surface/60 text-base font-semibold transition-colors hover:bg-surface-2 disabled:opacity-60"
         >
-          <Fingerprint className="h-5 w-5 text-gold" /> Continue with Biometrics
+          {isVerifyingBiometric ? <Loader2 className="h-5 w-5 animate-spin text-gold" /> : <Fingerprint className="h-5 w-5 text-gold" />}
+          Continue with Biometrics
         </button>
 
         <p className="mt-auto pb-8 pt-10 text-center text-sm text-muted-foreground">

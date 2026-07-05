@@ -6,6 +6,7 @@ import { useActiveTransactions, useTransactions } from "@/hooks/queries/useTrans
 import { useUnreadNotificationCount } from "@/hooks/queries/useNotifications";
 import { formatCurrency, statusColorClass } from "@/services/transactions.service";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/useLanguage";
 import type { Transaction, TxStatus } from "@/types/models";
 
 export const Route = createFileRoute("/app/")({
@@ -24,6 +25,7 @@ const PROGRESS_BY_STATUS: Record<TxStatus, { pct: string; label: string }> = {
 
 function Home() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const { data: activeOrders, isLoading: loadingActive } = useActiveTransactions();
   const { data: transactions, isLoading: loadingRecent } = useTransactions();
   const { data: unreadCount } = useUnreadNotificationCount();
@@ -59,7 +61,7 @@ function Home() {
         </div>
       </header>
 
-      <p className="mt-5 px-5 text-sm text-muted-foreground">Hi, {firstName} 👋</p>
+      <p className="mt-5 px-5 text-sm text-muted-foreground">{t("home_greeting")}, {firstName} 👋</p>
 
       {/* Balance card */}
       <section className="mx-5 mt-3 overflow-hidden rounded-3xl border border-border/40 bg-gradient-card p-6 shadow-card">
@@ -68,14 +70,14 @@ function Home() {
           <div className="absolute -bottom-16 left-6 h-32 w-32 rounded-full bg-accent/25 blur-3xl" />
 
           <div className="relative flex items-center gap-2 text-xs font-semibold tracking-[0.2em] text-muted-foreground">
-            <Shield className="h-3.5 w-3.5 text-gold" /> PROTECTED IN ESCROW
+            <Shield className="h-3.5 w-3.5 text-gold" /> {t("home_protected_in_escrow").toUpperCase()}
           </div>
           <p className="relative mt-3 text-4xl font-bold tracking-tight">{formatCurrency(protectedTotal)}</p>
 
           <div className="relative mt-6 grid grid-cols-3 gap-3 border-t border-border/40 pt-4">
-            <Stat label="Trust Score" value={`${user?.trustScore ?? 0} / 1000`} />
-            <Stat label="Active" value={`${activeOrders?.length ?? 0} deals`} />
-            <Stat label="Completed" value={`${(transactions ?? []).filter((t) => t.status === "Completed").length}`} />
+            <Stat label={t("home_trust_score")} value={`${user?.trustScore ?? 0} / 1000`} />
+            <Stat label={t("home_active")} value={`${activeOrders?.length ?? 0} deals`} />
+            <Stat label={t("home_completed")} value={`${(transactions ?? []).filter((tx) => tx.status === "Completed").length}`} />
           </div>
         </div>
       </section>
@@ -89,7 +91,7 @@ function Home() {
 
       {/* Active Orders */}
       <section className="mt-7 px-5">
-        <SectionHeader title="Active Orders" to="/app/track" />
+        <SectionHeader title={t("home_active_orders")} to="/app/track" seeAllLabel={t("home_see_all")} />
         {loadingActive ? (
           <ListSkeleton rows={2} className="mt-3" />
         ) : (activeOrders?.length ?? 0) === 0 ? (
@@ -107,7 +109,7 @@ function Home() {
 
       {/* Recent transactions */}
       <section className="mt-7 px-5">
-        <SectionHeader title="Recent Transactions" to="/app/transactions" />
+        <SectionHeader title={t("home_recent_transactions")} to="/app/transactions" seeAllLabel={t("home_see_all")} />
         {loadingRecent ? (
           <ListSkeleton rows={3} className="mt-3" />
         ) : recent.length === 0 ? (
@@ -195,12 +197,12 @@ function Action({ to, icon: Icon, label }: { to: string; icon: typeof FilePlus; 
   );
 }
 
-function SectionHeader({ title, to, params }: { title: string; to: string; params?: Record<string, string> }) {
+function SectionHeader({ title, to, params, seeAllLabel = "See all" }: { title: string; to: string; params?: Record<string, string>; seeAllLabel?: string }) {
   return (
     <div className="flex items-center justify-between">
       <h2 className="text-base font-bold">{title}</h2>
       <Link to={to} params={params} className="flex items-center gap-1 text-xs font-medium text-gold">
-        See all <ArrowUpRight className="h-3 w-3" />
+        {seeAllLabel} <ArrowUpRight className="h-3 w-3" />
       </Link>
     </div>
   );

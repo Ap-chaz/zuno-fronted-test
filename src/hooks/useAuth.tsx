@@ -11,6 +11,8 @@ interface AuthContextValue {
   signup: (input: SignupInput) => Promise<void>;
   logout: () => Promise<void>;
   clearError: () => void;
+  /** Re-activates a session already stored on this device (used by biometric login) without re-authenticating with a password. */
+  restoreSession: () => boolean;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -71,6 +73,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const clearError = useCallback(() => setError(null), []);
 
+  const restoreSession = useCallback(() => {
+    const session = authService.getStoredSession();
+    if (!session) return false;
+    setUser(session.user);
+    return true;
+  }, []);
+
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
@@ -81,8 +90,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signup,
       logout,
       clearError,
+      restoreSession,
     }),
-    [user, isLoading, error, login, signup, logout, clearError],
+    [user, isLoading, error, login, signup, logout, clearError, restoreSession],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

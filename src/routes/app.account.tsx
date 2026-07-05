@@ -3,6 +3,7 @@ import { ShieldCheck, ChevronRight, User, Bell, Lock, CreditCard, HelpCircle, Sh
 import { toast } from "sonner";
 import { TopBar } from "@/components/zuno/TopBar";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/useLanguage";
 import { useTransactions } from "@/hooks/queries/useTransactions";
 
 export const Route = createFileRoute("/app/account")({
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/app/account")({
 
 function Account() {
   const { user, logout } = useAuth();
+  const { t } = useLanguage();
   const { data: transactions } = useTransactions();
   const navigate = useNavigate();
   const completedDeals = (transactions ?? []).filter((t) => t.status === "Completed").length;
@@ -24,7 +26,7 @@ function Account() {
 
   return (
     <div className="flex flex-1 flex-col overflow-y-auto">
-      <TopBar title="Account" />
+      <TopBar title={t("account_title")} />
 
       <div className="mx-5 mt-4 rounded-3xl border border-border/40 bg-gradient-card p-5 shadow-card">
         <div className="flex items-center gap-4">
@@ -42,15 +44,15 @@ function Account() {
         <div className="mt-4 grid grid-cols-3 gap-2 border-t border-border/40 pt-4 text-center">
           <div>
             <p className="text-base font-bold">{user?.trustScore ?? 0}</p>
-            <p className="text-[10px] text-muted-foreground">Trust score</p>
+            <p className="text-[10px] text-muted-foreground">{t("home_trust_score")}</p>
           </div>
           <div>
             <p className="text-base font-bold">{transactions?.length ?? 0}</p>
-            <p className="text-[10px] text-muted-foreground">Deals</p>
+            <p className="text-[10px] text-muted-foreground">{t("account_deals")}</p>
           </div>
           <div>
             <p className="text-base font-bold">{completedDeals}</p>
-            <p className="text-[10px] text-muted-foreground">Completed</p>
+            <p className="text-[10px] text-muted-foreground">{t("account_completed")}</p>
           </div>
         </div>
       </div>
@@ -85,7 +87,7 @@ function Account() {
           onClick={handleLogout}
           className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-destructive/30 bg-destructive/10 text-sm font-semibold text-destructive transition-colors hover:bg-destructive/15"
         >
-          <LogOut className="h-4 w-4" /> Log out
+          <LogOut className="h-4 w-4" /> {t("account_log_out")}
         </button>
         <p className="mt-4 text-center text-[11px] text-muted-foreground">ZUNO v1.0.0 · Made with care</p>
       </div>

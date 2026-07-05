@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { TopBar } from "@/components/zuno/TopBar";
 import { currency } from "@/lib/zuno-data";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export const Route = createFileRoute("/seller/account")({
   head: () => ({ meta: [{ title: "Seller Profile — ZUNO" }] }),
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/seller/account")({
 
 function SellerAccount() {
   const { logout } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -120,7 +122,7 @@ function SellerAccount() {
           onClick={handleLogout}
           className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-destructive/30 bg-destructive/10 text-sm font-semibold text-destructive transition-colors hover:bg-destructive/15"
         >
-          <LogOut className="h-4 w-4" /> Log out
+          <LogOut className="h-4 w-4" /> {t("account_log_out")}
         </button>
         <p className="mt-4 text-center text-[11px] text-muted-foreground">ZUNO v1.0.0 · Seller</p>
       </div>

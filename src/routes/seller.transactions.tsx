@@ -3,6 +3,7 @@ import { ArrowUpRight, Download, ArrowDownRight } from "lucide-react";
 import { toast } from "sonner";
 import { TopBar } from "@/components/zuno/TopBar";
 import { currency } from "@/lib/zuno-data";
+import { exportToCsv } from "@/lib/csv-export";
 
 export const Route = createFileRoute("/seller/transactions")({
   head: () => ({ meta: [{ title: "Payouts — ZUNO Seller" }] }),
@@ -19,6 +20,25 @@ const rows = [
 ];
 
 function Payouts() {
+  const handleExport = () => {
+    try {
+      exportToCsv(
+        `zuno-payouts-${new Date().toISOString().slice(0, 10)}.csv`,
+        rows,
+        [
+          { header: "Description", accessor: (r) => r.label },
+          { header: "Date", accessor: (r) => r.date },
+          { header: "Type", accessor: (r) => (r.kind === "in" ? "Income" : "Outgoing") },
+          { header: "Amount (KES)", accessor: (r) => r.amount },
+          { header: "Status", accessor: (r) => r.status },
+        ],
+      );
+      toast.success("CSV downloaded.");
+    } catch {
+      toast.error("Couldn't generate the CSV. Please try again.");
+    }
+  };
+
   return (
     <div className="flex flex-1 flex-col overflow-y-auto">
       <TopBar title="Revenue & Payouts" />
@@ -31,7 +51,7 @@ function Payouts() {
         </div>
 
         <button
-          onClick={() => toast.info("CSV export is coming soon.")}
+          onClick={handleExport}
           className="mt-5 flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-gold text-sm font-semibold text-gold-foreground shadow-gold transition-opacity hover:opacity-95"
         >
           <Download className="h-4 w-4" /> Export CSV
