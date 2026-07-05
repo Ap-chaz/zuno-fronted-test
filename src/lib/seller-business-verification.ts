@@ -8,7 +8,13 @@ import type { SellerVerificationTier } from "@/types/models";
 export interface BusinessVerificationSubmission {
   category: string;
   businessRegNumber: string;
+  kraPin: string;
   location: string;
+  businessPhone: string;
+  payoutMethod: "mpesa" | "bank";
+  payoutDetails: string;
+  payoutBankName?: string;
+  documentName: string;
   submittedAt: string;
 }
 
