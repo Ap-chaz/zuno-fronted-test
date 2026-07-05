@@ -90,6 +90,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "ZUNO — Secure Escrow Payments" },
       { property: "og:description", content: "ZUNO is a secure payment and marketplace platform. Pay verified sellers safely with escrow protection." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://zuno-fronted-test.pages.dev/" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "ZUNO — Secure Escrow Payments" },
       { name: "twitter:description", content: "ZUNO is a secure payment and marketplace platform. Pay verified sellers safely with escrow protection." },
