@@ -74,8 +74,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const clearError = useCallback(() => setError(null), []);
 
   const restoreSession = useCallback(() => {
-    const session = authService.getStoredSession();
+    const session = authService.getBiometricSession();
     if (!session) return false;
+    authService.activateSession(session);
     setUser(session.user);
     return true;
   }, []);

@@ -5,6 +5,12 @@ import type { AuthSession, User, ZunoRole } from "@/types/models";
 
 const TOKEN_KEY = "zuno_auth_token";
 const USER_KEY = "zuno_auth_user";
+// Deliberately separate from the active session keys above: a normal
+// logout clears TOKEN_KEY/USER_KEY, but biometric login needs something to
+// restore even after that — this snapshot is only cleared when the person
+// explicitly turns biometric login off (or logs out "everywhere").
+const BIOMETRIC_TOKEN_KEY = "zuno_biometric_token";
+const BIOMETRIC_USER_KEY = "zuno_biometric_user";
 
 export interface LoginInput {
   identifier: string; // email or phone
@@ -29,6 +35,30 @@ function clearSession() {
   if (typeof window === "undefined") return;
   window.localStorage.removeItem(TOKEN_KEY);
   window.localStorage.removeItem(USER_KEY);
+}
+
+function saveBiometricSession(session: AuthSession) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(BIOMETRIC_TOKEN_KEY, session.token);
+  window.localStorage.setItem(BIOMETRIC_USER_KEY, JSON.stringify(session.user));
+}
+
+function getBiometricSession(): AuthSession | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const token = window.localStorage.getItem(BIOMETRIC_TOKEN_KEY);
+    const rawUser = window.localStorage.getItem(BIOMETRIC_USER_KEY);
+    if (!token || !rawUser) return null;
+    return { token, user: JSON.parse(rawUser) as User };
+  } catch {
+    return null;
+  }
+}
+
+function clearBiometricSession() {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(BIOMETRIC_TOKEN_KEY);
+  window.localStorage.removeItem(BIOMETRIC_USER_KEY);
 }
 
 function mockUser(overrides: Partial<User> = {}): User {
@@ -57,10 +87,12 @@ export const authService = {
         token: `mock-token-${Date.now()}`,
       };
       persistSession(session);
+      if (getBiometricSession()) saveBiometricSession(session);
       return mockResolve(session);
     }
     const session = await apiClient.post<AuthSession>("/auth/login", input);
     persistSession(session);
+    if (getBiometricSession()) saveBiometricSession(session);
     return session;
   },
 
@@ -111,6 +143,13 @@ export const authService = {
       return null;
     }
   },
+
+  /** Snapshot used by biometric login — deliberately survives a normal logout. */
+  getBiometricSession,
+  saveBiometricSession,
+  clearBiometricSession,
+  /** Re-establishes a session as the active one (sets the normal token/user keys the rest of the app reads). */
+  activateSession: persistSession,
 };
 
 export { ApiError };

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { TopBar } from "@/components/zuno/TopBar";
 import { useTheme } from "@/components/zuno/ThemeToggle";
 import { useAuth } from "@/hooks/useAuth";
+import { authService } from "@/services/auth.service";
 import { useLanguage } from "@/hooks/useLanguage";
 import { LANGUAGES } from "@/lib/i18n/translations";
 import {
@@ -45,6 +46,7 @@ export function SettingsPage({ backTo = "/app/account" }: { backTo?: string }) {
   const handleBiometricToggle = async () => {
     if (biometric) {
       clearBiometric();
+      authService.clearBiometricSession();
       setBiometric(false);
       toast.success("Biometric login turned off.");
       return;
@@ -57,6 +59,8 @@ export function SettingsPage({ backTo = "/app/account" }: { backTo?: string }) {
     try {
       const ok = await registerBiometric(user?.id ?? "zuno_user", user?.name ?? "ZUNO User");
       if (ok) {
+        const currentSession = authService.getStoredSession();
+        if (currentSession) authService.saveBiometricSession(currentSession);
         setBiometric(true);
         toast.success("Biometric login enabled on this device.");
       }
