@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shield, Lock, Truck, CheckCircle2, ArrowDown } from "lucide-react";
-import zunoLogo from "@/assets/zuno-logo-new.png.asset.json";
+import zunoLogo from "@/assets/zuno-logo-new.png";
 import { TopBar } from "@/components/zuno/TopBar";
 
 export const Route = createFileRoute("/app/safepay")({
@@ -16,8 +16,8 @@ export function SafePayPage({ backTo = "/app", startHref = "/app/new-escrow" }: 
 
       <div className="px-5 pt-4 pb-8">
         <div className="overflow-hidden rounded-3xl border border-border/40 bg-gradient-card p-6 shadow-elevated">
-          <div className="mx-auto grid h-24 w-24 place-items-center overflow-hidden rounded-3xl bg-white p-3 ring-1 ring-gold/30 shadow-elevated">
-            <img src={zunoLogo.url} alt="ZUNO" className="h-full w-full object-contain" />
+          <div className="mx-auto grid h-24 w-24 place-items-center overflow-hidden rounded-3xl bg-transparent p-3">
+            <img src={zunoLogo} alt="ZUNO" className="h-full w-full object-contain" />
           </div>
 
           <h1 className="mt-5 text-center text-2xl font-bold leading-tight">
