@@ -39,7 +39,7 @@ function Welcome() {
 
 
           <h1 className="mt-10 text-3xl font-bold leading-tight">
-            Pay and get paid <span className="text-gold">safely.</span>
+            Every transaction, <span className="text-gold">secured.</span>
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             Escrow protection that gives you peace of mind on every deal. Verified sellers, protected buyers.
