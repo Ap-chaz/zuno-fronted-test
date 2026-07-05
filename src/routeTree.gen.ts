@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ShareRouteImport } from './routes/share'
 import { Route as SellerRouteImport } from './routes/seller'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AboutRouteImport } from './routes/about'
@@ -63,6 +64,11 @@ const ShareRoute = ShareRouteImport.update({
 const SellerRoute = SellerRouteImport.update({
   id: '/seller',
   path: '/seller',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HelpRoute = HelpRouteImport.update({
@@ -256,6 +262,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/app': typeof AppRouteWithChildren
   '/help': typeof HelpRoute
+  '/privacy': typeof PrivacyRoute
   '/seller': typeof SellerRouteWithChildren
   '/share': typeof ShareRoute
   '/terms': typeof TermsRoute
@@ -297,6 +304,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/help': typeof HelpRoute
+  '/privacy': typeof PrivacyRoute
   '/share': typeof ShareRoute
   '/terms': typeof TermsRoute
   '/admin/sellers': typeof AdminSellersRoute
@@ -339,6 +347,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/app': typeof AppRouteWithChildren
   '/help': typeof HelpRoute
+  '/privacy': typeof PrivacyRoute
   '/seller': typeof SellerRouteWithChildren
   '/share': typeof ShareRoute
   '/terms': typeof TermsRoute
@@ -383,6 +392,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/app'
     | '/help'
+    | '/privacy'
     | '/seller'
     | '/share'
     | '/terms'
@@ -424,6 +434,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/help'
+    | '/privacy'
     | '/share'
     | '/terms'
     | '/admin/sellers'
@@ -465,6 +476,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/app'
     | '/help'
+    | '/privacy'
     | '/seller'
     | '/share'
     | '/terms'
@@ -508,6 +520,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AppRoute: typeof AppRouteWithChildren
   HelpRoute: typeof HelpRoute
+  PrivacyRoute: typeof PrivacyRoute
   SellerRoute: typeof SellerRouteWithChildren
   ShareRoute: typeof ShareRoute
   TermsRoute: typeof TermsRoute
@@ -541,6 +554,13 @@ declare module '@tanstack/react-router' {
       path: '/seller'
       fullPath: '/seller'
       preLoaderRoute: typeof SellerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/help': {
@@ -879,6 +899,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AppRoute: AppRouteWithChildren,
   HelpRoute: HelpRoute,
+  PrivacyRoute: PrivacyRoute,
   SellerRoute: SellerRouteWithChildren,
   ShareRoute: ShareRoute,
   TermsRoute: TermsRoute,

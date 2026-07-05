@@ -5,10 +5,10 @@ import { PhoneFrame } from "@/components/zuno/PhoneFrame";
 
 export const Route = createFileRoute("/terms")({
   head: () => ({ meta: [{ title: "Terms & Conditions — ZUNO" }] }),
-  component: () => <TermsPage backTo="/seller/account" />,
+  component: () => <TermsPage backTo="/" />,
 });
 
-export function TermsPage({ backTo = "/seller/account" }: { backTo?: string }) {
+export function TermsPage({ backTo = "/" }: { backTo?: string }) {
   return (
     <PhoneFrame>
       <TopBar title="Terms & Conditions" back={backTo} />

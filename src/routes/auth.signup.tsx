@@ -92,8 +92,26 @@ function Signup() {
             className="mt-0.5 border-gold data-[state=checked]:bg-gold data-[state=checked]:text-gold-foreground"
           />
           <span>
-            By creating an account, you agree to our <span className="font-semibold text-gold">Terms of Service</span> and{" "}
-            <span className="font-semibold text-gold">Privacy Policy</span>
+            By creating an account, you agree to our{" "}
+            <Link
+              to="/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="font-semibold text-gold underline underline-offset-2"
+            >
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link
+              to="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="font-semibold text-gold underline underline-offset-2"
+            >
+              Privacy Policy
+            </Link>
           </span>
         </label>
         {errors.agree && <p className="-mt-1 text-xs text-destructive">{errors.agree.message}</p>}
