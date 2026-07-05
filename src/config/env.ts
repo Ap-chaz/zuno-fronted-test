@@ -38,4 +38,13 @@ export const env = {
     | "production",
 
   isProd: import.meta.env.PROD,
+
+  /**
+   * Stopgap passcode gating /admin/* routes until real admin authentication
+   * (separate login, roles, backend-enforced authorization) exists. This is
+   * a deterrent, not security — the passcode ships in the client bundle and
+   * anyone can read it from devtools. Do not rely on this once real money
+   * or real seller data is involved; replace with proper auth first.
+   */
+  adminPasscode: import.meta.env.VITE_ADMIN_PASSCODE ?? "",
 } as const;

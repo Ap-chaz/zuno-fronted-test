@@ -1,22 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { BadgeCheck, Clock, ShieldAlert, ShieldOff, Check, X, Flag } from "lucide-react";
+import { BadgeCheck, Clock, ShieldAlert, ShieldOff, Check, X, Flag, LogOut } from "lucide-react";
 import { toast } from "sonner";
 import { PhoneFrame } from "@/components/zuno/PhoneFrame";
 import { TopBar } from "@/components/zuno/TopBar";
+import { AdminGate } from "@/components/zuno/AdminGate";
 import { useSellers } from "@/hooks/queries/useSellers";
 import { getSellerTier } from "@/lib/seller-eligibility";
+import { adminLogout } from "@/lib/admin-auth";
 import type { Seller, SellerVerificationTier } from "@/types/models";
 
 export const Route = createFileRoute("/admin/sellers")({
   head: () => ({ meta: [{ title: "Seller Verification Queue — ZUNO Admin" }] }),
-  component: AdminSellers,
+  component: () => (
+    <AdminGate>
+      <AdminSellerQueue />
+    </AdminGate>
+  ),
 });
 
-// NOTE: this is a frontend-only demo of the review workflow. Tier changes
-// live in component state and reset on reload — wiring this to a real
-// endpoint (PATCH /admin/sellers/:id) is a backend task, not a UI one.
-function AdminSellers() {
+function AdminSellerQueue() {
   const { data: sellers, isLoading } = useSellers();
   const [overrides, setOverrides] = useState<Record<string, SellerVerificationTier>>({});
 
@@ -29,7 +32,23 @@ function AdminSellers() {
 
   return (
     <PhoneFrame>
-      <TopBar title="Seller Verification Queue" back="/app/account" />
+      <TopBar
+        title="Seller Verification Queue"
+        back="/admin"
+        right={
+          <button
+            type="button"
+            onClick={() => {
+              adminLogout();
+              window.location.reload();
+            }}
+            className="grid h-10 w-10 place-items-center rounded-xl bg-surface text-muted-foreground hover:bg-surface-2"
+            aria-label="Log out of admin"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
+        }
+      />
 
       <div className="px-5 pt-4 pb-8">
         <p className="mb-4 text-xs text-muted-foreground">

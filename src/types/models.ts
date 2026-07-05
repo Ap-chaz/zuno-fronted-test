@@ -98,6 +98,11 @@ export interface Dispute {
   status: DisputeStatus;
   createdAt: string;
   evidenceUrls: string[];
+  /** Set once an admin resolves the dispute — who the funds decision favored. */
+  resolvedInFavorOf?: "buyer" | "seller";
+  /** Admin's note explaining the resolution, shown to both parties. */
+  resolutionNote?: string;
+  resolvedAt?: string;
 }
 
 export interface TrackingEvent {

@@ -21,3 +21,13 @@ export function useCreateDispute() {
     },
   });
 }
+
+export function useResolveDispute() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: disputesService.resolve,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: disputeKeys.all });
+    },
+  });
+}

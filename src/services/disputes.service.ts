@@ -37,4 +37,30 @@ export const disputesService = {
     }
     return apiClient.post<Dispute>("/disputes", input);
   },
+
+  /**
+   * Admin-only: record a binding resolution. In production this must also
+   * trigger the actual fund movement (refund or release) server-side — this
+   * mock only updates the dispute record, it does not move any money.
+   */
+  async resolve(input: {
+    id: string;
+    resolvedInFavorOf: "buyer" | "seller";
+    resolutionNote: string;
+  }): Promise<Dispute> {
+    if (env.useMockApi) {
+      const idx = MOCK_DISPUTES.findIndex((d) => d.id === input.id);
+      if (idx === -1) throw new Error("Dispute not found");
+      const updated: Dispute = {
+        ...MOCK_DISPUTES[idx],
+        status: "resolved",
+        resolvedInFavorOf: input.resolvedInFavorOf,
+        resolutionNote: input.resolutionNote,
+        resolvedAt: new Date().toISOString(),
+      };
+      MOCK_DISPUTES[idx] = updated;
+      return mockResolve(updated);
+    }
+    return apiClient.post<Dispute>(`/disputes/${input.id}/resolve`, input);
+  },
 };
