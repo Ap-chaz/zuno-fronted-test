@@ -27,6 +27,8 @@ export interface Transaction {
   category: string;
 }
 
+export type SellerVerificationTier = "unverified" | "pending" | "verified" | "flagged";
+
 export interface Seller {
   id: string;
   name: string;
@@ -35,6 +37,10 @@ export interface Seller {
   reviews: number;
   category: string;
   verified: boolean;
+  /** Finer-grained status than `verified` — drives the display gate and admin queue. */
+  verificationTier?: SellerVerificationTier;
+  /** Count of unresolved/upheld disputes against this seller. */
+  disputeCount?: number;
   deals: number;
   tagline: string;
   color: string;

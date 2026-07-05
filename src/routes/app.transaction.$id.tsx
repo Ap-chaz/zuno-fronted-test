@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Download, Shield, Copy, BadgeCheck, Check } from "lucide-react";
+import { Download, Shield, Copy, Check } from "lucide-react";
+import { VerificationBadge } from "@/components/zuno/VerificationBadge";
 import { useState } from "react";
 import { toast } from "sonner";
 import { TopBar } from "@/components/zuno/TopBar";
@@ -102,7 +103,7 @@ function TxDetail() {
           <div className="flex-1">
             <div className="flex items-center gap-1.5">
               <p className="font-semibold">{tx.seller}</p>
-              {seller?.verified && <BadgeCheck className="h-4 w-4 text-gold" />}
+              {seller && <VerificationBadge seller={seller} />}
             </div>
             <p className="text-xs text-muted-foreground">{seller ? `Trusted seller · ${seller.rating} ★` : "View seller profile"}</p>
           </div>

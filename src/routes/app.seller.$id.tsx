@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { VerificationBadge } from "@/components/zuno/VerificationBadge";
 import {
-  BadgeCheck,
   Star,
   MapPin,
   Tag,
@@ -89,7 +89,7 @@ function SellerProfile() {
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
               <h1 className="truncate text-xl font-bold">{seller.name}</h1>
-              {seller.verified && <BadgeCheck className="h-5 w-5 shrink-0 text-gold" />}
+              <VerificationBadge seller={seller} className="h-5 w-5 shrink-0" />
             </div>
             <p className="mt-0.5 text-sm text-muted-foreground">{seller.tagline}</p>
             <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">

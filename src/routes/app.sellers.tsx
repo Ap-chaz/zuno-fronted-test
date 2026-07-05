@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Search, Star, BadgeCheck, ChevronRight, Store } from "lucide-react";
+import { Search, Star, ChevronRight, Store } from "lucide-react";
 import { TopBar } from "@/components/zuno/TopBar";
+import { VerificationBadge } from "@/components/zuno/VerificationBadge";
 import { EmptyState, ErrorState, ListSkeleton } from "@/components/common/StateViews";
 import { useSellerSearch } from "@/hooks/queries/useSellers";
 import { SELLER_CATEGORIES } from "@/services/sellers.service";
+import { isEligibleForDisplay } from "@/lib/seller-eligibility";
 
 export const Route = createFileRoute("/app/sellers")({
   head: () => ({ meta: [{ title: "Verified Sellers — ZUNO" }] }),
@@ -14,7 +16,8 @@ export const Route = createFileRoute("/app/sellers")({
 function Sellers() {
   const [cat, setCat] = useState("All");
   const [query, setQuery] = useState("");
-  const { data: filtered, isLoading, isError, refetch } = useSellerSearch(query, cat);
+  const { data: searchResults, isLoading, isError, refetch } = useSellerSearch(query, cat);
+  const filtered = searchResults?.filter(isEligibleForDisplay);
 
   return (
     <div className="flex flex-1 flex-col overflow-y-auto">
@@ -65,7 +68,7 @@ function Sellers() {
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
                       <h3 className="truncate font-semibold">{s.name}</h3>
-                      {s.verified && <BadgeCheck className="h-4 w-4 shrink-0 text-gold" />}
+                      <VerificationBadge seller={s} />
                     </div>
                     <p className="truncate text-xs text-muted-foreground">{s.tagline}</p>
                   </div>
