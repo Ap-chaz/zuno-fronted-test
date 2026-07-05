@@ -93,8 +93,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "ZUNO — Secure Escrow Payments" },
       { name: "twitter:description", content: "ZUNO is a secure payment and marketplace platform. Pay verified sellers safely with escrow protection." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5337cbf0-b2ce-4372-b2c9-f3d5ecdb2162/id-preview-deb04b10--1abe7c33-883e-4653-8a45-e788a640c5d2.lovable.app-1781875573309.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5337cbf0-b2ce-4372-b2c9-f3d5ecdb2162/id-preview-deb04b10--1abe7c33-883e-4653-8a45-e788a640c5d2.lovable.app-1781875573309.png" },
+      { property: "og:image", content: "https://zuno-fronted-test.pages.dev/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:image", content: "https://zuno-fronted-test.pages.dev/og-image.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
