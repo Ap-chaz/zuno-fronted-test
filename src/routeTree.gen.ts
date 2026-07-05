@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ShareRouteImport } from './routes/share'
 import { Route as SellerRouteImport } from './routes/seller'
 import { Route as HelpRouteImport } from './routes/help'
@@ -49,6 +50,11 @@ import { Route as AppTransactionIdRouteImport } from './routes/app.transaction.$
 import { Route as AppTrackingIdRouteImport } from './routes/app.tracking.$id'
 import { Route as AppSellerIdRouteImport } from './routes/app.seller.$id'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShareRoute = ShareRouteImport.update({
   id: '/share',
   path: '/share',
@@ -252,6 +258,7 @@ export interface FileRoutesByFullPath {
   '/help': typeof HelpRoute
   '/seller': typeof SellerRouteWithChildren
   '/share': typeof ShareRoute
+  '/terms': typeof TermsRoute
   '/admin/sellers': typeof AdminSellersRoute
   '/app/account': typeof AppAccountRoute
   '/app/disputes': typeof AppDisputesRoute
@@ -291,6 +298,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/help': typeof HelpRoute
   '/share': typeof ShareRoute
+  '/terms': typeof TermsRoute
   '/admin/sellers': typeof AdminSellersRoute
   '/app/account': typeof AppAccountRoute
   '/app/disputes': typeof AppDisputesRoute
@@ -333,6 +341,7 @@ export interface FileRoutesById {
   '/help': typeof HelpRoute
   '/seller': typeof SellerRouteWithChildren
   '/share': typeof ShareRoute
+  '/terms': typeof TermsRoute
   '/admin/sellers': typeof AdminSellersRoute
   '/app/account': typeof AppAccountRoute
   '/app/disputes': typeof AppDisputesRoute
@@ -376,6 +385,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/seller'
     | '/share'
+    | '/terms'
     | '/admin/sellers'
     | '/app/account'
     | '/app/disputes'
@@ -415,6 +425,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/help'
     | '/share'
+    | '/terms'
     | '/admin/sellers'
     | '/app/account'
     | '/app/disputes'
@@ -456,6 +467,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/seller'
     | '/share'
+    | '/terms'
     | '/admin/sellers'
     | '/app/account'
     | '/app/disputes'
@@ -498,6 +510,7 @@ export interface RootRouteChildren {
   HelpRoute: typeof HelpRoute
   SellerRoute: typeof SellerRouteWithChildren
   ShareRoute: typeof ShareRoute
+  TermsRoute: typeof TermsRoute
   AdminSellersRoute: typeof AdminSellersRoute
   AuthForgotRoute: typeof AuthForgotRoute
   AuthKycRoute: typeof AuthKycRoute
@@ -509,6 +522,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/share': {
       id: '/share'
       path: '/share'
@@ -861,6 +881,7 @@ const rootRouteChildren: RootRouteChildren = {
   HelpRoute: HelpRoute,
   SellerRoute: SellerRouteWithChildren,
   ShareRoute: ShareRoute,
+  TermsRoute: TermsRoute,
   AdminSellersRoute: AdminSellersRoute,
   AuthForgotRoute: AuthForgotRoute,
   AuthKycRoute: AuthKycRoute,
