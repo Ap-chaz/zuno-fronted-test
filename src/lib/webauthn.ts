@@ -47,6 +47,14 @@ function bufferToBase64Url(buffer: ArrayBuffer): string {
   return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
+function base64UrlToBuffer(base64url: string): ArrayBuffer {
+  const padded = base64url.replace(/-/g, "+").replace(/_/g, "/").padEnd(base64url.length + ((4 - (base64url.length % 4)) % 4), "=");
+  const binary = atob(padded);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes.buffer;
+}
+
 export function hasRegisteredBiometric(): boolean {
   if (typeof window === "undefined") return false;
   return !!window.localStorage.getItem(CREDENTIAL_ID_KEY);
@@ -71,6 +79,8 @@ export async function registerBiometric(userId: string, userName: string): Promi
       authenticatorSelection: {
         authenticatorAttachment: "platform",
         userVerification: "required",
+        residentKey: "preferred",
+        requireResidentKey: false,
       },
       timeout: 60_000,
     },
@@ -91,6 +101,15 @@ export async function verifyBiometric(): Promise<boolean> {
       challenge: randomBytes(32),
       userVerification: "required",
       timeout: 60_000,
+      // Without this, the browser has no discoverable credential to offer
+      // and shows "No passkeys available" even though one was registered.
+      allowCredentials: [
+        {
+          type: "public-key",
+          id: base64UrlToBuffer(credentialId),
+          transports: ["internal"],
+        },
+      ],
     },
   });
 
