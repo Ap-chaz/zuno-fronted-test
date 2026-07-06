@@ -94,6 +94,22 @@ export interface AuthSession {
   token: string;
 }
 
+/**
+ * There's no real multi-buyer user table yet (auth only tracks the single
+ * logged-in user). This is derived from transaction history instead —
+ * grouped by buyerName — so admin has something real to work with rather
+ * than inventing a parallel fake dataset. Once a real user table exists,
+ * swap this for an actual buyers endpoint.
+ */
+export interface BuyerSummary {
+  name: string;
+  transactionCount: number;
+  totalSpent: number;
+  disputeCount: number;
+  lastTransactionDate: string;
+  suspended: boolean;
+}
+
 export interface Notification {
   id: string;
   title: string;

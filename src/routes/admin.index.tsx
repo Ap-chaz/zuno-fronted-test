@@ -116,6 +116,12 @@ function AdminHome() {
             desc="Track seller payouts and buyer refunds owed, mark as sent"
           />
           <AdminLink
+            to="/admin/buyers"
+            icon={Users}
+            title="Buyer Accounts"
+            desc="Search buyers, view activity, suspend or reinstate"
+          />
+          <AdminLink
             to="/admin"
             icon={BarChart3}
             title="Analytics Dashboard"
@@ -124,9 +130,9 @@ function AdminHome() {
           />
           <AdminLink
             to="/admin"
-            icon={Users}
-            title="Buyer & Seller Accounts"
-            desc="Coming soon"
+            icon={ShieldCheck}
+            title="Seller Accounts"
+            desc="Full seller directory beyond verification — coming soon"
             disabled
           />
         </div>

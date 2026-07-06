@@ -51,6 +51,7 @@ import { Route as AdminTransactionsRouteImport } from './routes/admin.transactio
 import { Route as AdminSellersRouteImport } from './routes/admin.sellers'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
 import { Route as AdminDisputesRouteImport } from './routes/admin.disputes'
+import { Route as AdminBuyersRouteImport } from './routes/admin.buyers'
 import { Route as AppTransactionIdRouteImport } from './routes/app.transaction.$id'
 import { Route as AppTrackingIdRouteImport } from './routes/app.tracking.$id'
 import { Route as AppSellerIdRouteImport } from './routes/app.seller.$id'
@@ -265,6 +266,11 @@ const AdminDisputesRoute = AdminDisputesRouteImport.update({
   path: '/admin/disputes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminBuyersRoute = AdminBuyersRouteImport.update({
+  id: '/admin/buyers',
+  path: '/admin/buyers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppTransactionIdRoute = AppTransactionIdRouteImport.update({
   id: '/transaction/$id',
   path: '/transaction/$id',
@@ -290,6 +296,7 @@ export interface FileRoutesByFullPath {
   '/seller': typeof SellerRouteWithChildren
   '/share': typeof ShareRoute
   '/terms': typeof TermsRoute
+  '/admin/buyers': typeof AdminBuyersRoute
   '/admin/disputes': typeof AdminDisputesRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/sellers': typeof AdminSellersRoute
@@ -335,6 +342,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/share': typeof ShareRoute
   '/terms': typeof TermsRoute
+  '/admin/buyers': typeof AdminBuyersRoute
   '/admin/disputes': typeof AdminDisputesRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/sellers': typeof AdminSellersRoute
@@ -383,6 +391,7 @@ export interface FileRoutesById {
   '/seller': typeof SellerRouteWithChildren
   '/share': typeof ShareRoute
   '/terms': typeof TermsRoute
+  '/admin/buyers': typeof AdminBuyersRoute
   '/admin/disputes': typeof AdminDisputesRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/sellers': typeof AdminSellersRoute
@@ -432,6 +441,7 @@ export interface FileRouteTypes {
     | '/seller'
     | '/share'
     | '/terms'
+    | '/admin/buyers'
     | '/admin/disputes'
     | '/admin/payouts'
     | '/admin/sellers'
@@ -477,6 +487,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/share'
     | '/terms'
+    | '/admin/buyers'
     | '/admin/disputes'
     | '/admin/payouts'
     | '/admin/sellers'
@@ -524,6 +535,7 @@ export interface FileRouteTypes {
     | '/seller'
     | '/share'
     | '/terms'
+    | '/admin/buyers'
     | '/admin/disputes'
     | '/admin/payouts'
     | '/admin/sellers'
@@ -572,6 +584,7 @@ export interface RootRouteChildren {
   SellerRoute: typeof SellerRouteWithChildren
   ShareRoute: typeof ShareRoute
   TermsRoute: typeof TermsRoute
+  AdminBuyersRoute: typeof AdminBuyersRoute
   AdminDisputesRoute: typeof AdminDisputesRoute
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminSellersRoute: typeof AdminSellersRoute
@@ -881,6 +894,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDisputesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/buyers': {
+      id: '/admin/buyers'
+      path: '/admin/buyers'
+      fullPath: '/admin/buyers'
+      preLoaderRoute: typeof AdminBuyersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/transaction/$id': {
       id: '/app/transaction/$id'
       path: '/transaction/$id'
@@ -983,6 +1003,7 @@ const rootRouteChildren: RootRouteChildren = {
   SellerRoute: SellerRouteWithChildren,
   ShareRoute: ShareRoute,
   TermsRoute: TermsRoute,
+  AdminBuyersRoute: AdminBuyersRoute,
   AdminDisputesRoute: AdminDisputesRoute,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminSellersRoute: AdminSellersRoute,
