@@ -13,13 +13,13 @@ export type Transaction = {
 export const currency = (n: number) => `KES ${n.toLocaleString()}`;
 
 export const transactions: Transaction[] = [
-  { id: "ZUNOAXFVLO4Y8Y", item: "iPhone 17 Pro Max", seller: "Gadget World", amount: 191311, date: "05/06/2026", status: "Funded", category: "Electronics" },
-  { id: "ZUNO9KLP2M3N4Q", item: "MacBook Air M4", seller: "TechHub KE", amount: 145000, date: "04/06/2026", status: "Protected", category: "Electronics" },
-  { id: "ZUNO7HG6FD5SA1", item: "Sony WH-1000XM6", seller: "AudioPro", amount: 42500, date: "03/06/2026", status: "Completed", category: "Audio" },
-  { id: "ZUNO3BV5CN8XZ2", item: "Office Desk Setup", seller: "WoodCraft Co", amount: 88000, date: "01/06/2026", status: "Pending", category: "Furniture" },
-  { id: "ZUNO1QW2ER3TY4", item: "Samsung Galaxy S25", seller: "Phone Centre", amount: 124000, date: "28/05/2026", status: "Refunded", category: "Electronics" },
-  { id: "ZUNO5UI6OP7AS8", item: "Apple Watch Ultra 3", seller: "Gadget World", amount: 98500, date: "25/05/2026", status: "Completed", category: "Wearables" },
-  { id: "ZUNO9DF8GH7JK6", item: "DJI Mini 5 Pro", seller: "Aerial KE", amount: 165000, date: "20/05/2026", status: "Disputed", category: "Drones" },
+  { id: "ZUNOAXFVLO4Y8Y", item: "iPhone 17 Pro Max", seller: "Gadget World", buyerName: "Brian Otieno", amount: 191311, date: "05/06/2026", status: "Funded", category: "Electronics" },
+  { id: "ZUNO9KLP2M3N4Q", item: "MacBook Air M4", seller: "TechHub KE", buyerName: "Faith Wanjiru", amount: 145000, date: "04/06/2026", status: "Protected", category: "Electronics" },
+  { id: "ZUNO7HG6FD5SA1", item: "Sony WH-1000XM6", seller: "AudioPro", buyerName: "Kevin Mwangi", amount: 42500, date: "03/06/2026", status: "Completed", category: "Audio" },
+  { id: "ZUNO3BV5CN8XZ2", item: "Office Desk Setup", seller: "WoodCraft Co", buyerName: "Grace Achieng", amount: 88000, date: "01/06/2026", status: "Pending", category: "Furniture" },
+  { id: "ZUNO1QW2ER3TY4", item: "Samsung Galaxy S25", seller: "Phone Centre", buyerName: "Daniel Kiprono", amount: 124000, date: "28/05/2026", status: "Refunded", category: "Electronics" },
+  { id: "ZUNO5UI6OP7AS8", item: "Apple Watch Ultra 3", seller: "Gadget World", buyerName: "Aisha Noor", amount: 98500, date: "25/05/2026", status: "Completed", category: "Wearables" },
+  { id: "ZUNO9DF8GH7JK6", item: "DJI Mini 5 Pro", seller: "Aerial KE", buyerName: "Peter Njoroge", amount: 165000, date: "20/05/2026", status: "Disputed", category: "Drones", flaggedForReview: true },
 ];
 
 export type Seller = {

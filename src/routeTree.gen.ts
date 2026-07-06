@@ -47,6 +47,7 @@ import { Route as AppNotificationsRouteImport } from './routes/app.notifications
 import { Route as AppNewEscrowRouteImport } from './routes/app.new-escrow'
 import { Route as AppDisputesRouteImport } from './routes/app.disputes'
 import { Route as AppAccountRouteImport } from './routes/app.account'
+import { Route as AdminTransactionsRouteImport } from './routes/admin.transactions'
 import { Route as AdminSellersRouteImport } from './routes/admin.sellers'
 import { Route as AdminDisputesRouteImport } from './routes/admin.disputes'
 import { Route as AppTransactionIdRouteImport } from './routes/app.transaction.$id'
@@ -243,6 +244,11 @@ const AppAccountRoute = AppAccountRouteImport.update({
   path: '/account',
   getParentRoute: () => AppRoute,
 } as any)
+const AdminTransactionsRoute = AdminTransactionsRouteImport.update({
+  id: '/admin/transactions',
+  path: '/admin/transactions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminSellersRoute = AdminSellersRouteImport.update({
   id: '/admin/sellers',
   path: '/admin/sellers',
@@ -280,6 +286,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin/disputes': typeof AdminDisputesRoute
   '/admin/sellers': typeof AdminSellersRoute
+  '/admin/transactions': typeof AdminTransactionsRoute
   '/app/account': typeof AppAccountRoute
   '/app/disputes': typeof AppDisputesRoute
   '/app/new-escrow': typeof AppNewEscrowRoute
@@ -323,6 +330,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin/disputes': typeof AdminDisputesRoute
   '/admin/sellers': typeof AdminSellersRoute
+  '/admin/transactions': typeof AdminTransactionsRoute
   '/app/account': typeof AppAccountRoute
   '/app/disputes': typeof AppDisputesRoute
   '/app/new-escrow': typeof AppNewEscrowRoute
@@ -369,6 +377,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/admin/disputes': typeof AdminDisputesRoute
   '/admin/sellers': typeof AdminSellersRoute
+  '/admin/transactions': typeof AdminTransactionsRoute
   '/app/account': typeof AppAccountRoute
   '/app/disputes': typeof AppDisputesRoute
   '/app/new-escrow': typeof AppNewEscrowRoute
@@ -416,6 +425,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/disputes'
     | '/admin/sellers'
+    | '/admin/transactions'
     | '/app/account'
     | '/app/disputes'
     | '/app/new-escrow'
@@ -459,6 +469,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/disputes'
     | '/admin/sellers'
+    | '/admin/transactions'
     | '/app/account'
     | '/app/disputes'
     | '/app/new-escrow'
@@ -504,6 +515,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/disputes'
     | '/admin/sellers'
+    | '/admin/transactions'
     | '/app/account'
     | '/app/disputes'
     | '/app/new-escrow'
@@ -550,6 +562,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   AdminDisputesRoute: typeof AdminDisputesRoute
   AdminSellersRoute: typeof AdminSellersRoute
+  AdminTransactionsRoute: typeof AdminTransactionsRoute
   AuthForgotRoute: typeof AuthForgotRoute
   AuthKycRoute: typeof AuthKycRoute
   AuthLoginRoute: typeof AuthLoginRoute
@@ -827,6 +840,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAccountRouteImport
       parentRoute: typeof AppRoute
     }
+    '/admin/transactions': {
+      id: '/admin/transactions'
+      path: '/admin/transactions'
+      fullPath: '/admin/transactions'
+      preLoaderRoute: typeof AdminTransactionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/sellers': {
       id: '/admin/sellers'
       path: '/admin/sellers'
@@ -945,6 +965,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   AdminDisputesRoute: AdminDisputesRoute,
   AdminSellersRoute: AdminSellersRoute,
+  AdminTransactionsRoute: AdminTransactionsRoute,
   AuthForgotRoute: AuthForgotRoute,
   AuthKycRoute: AuthKycRoute,
   AuthLoginRoute: AuthLoginRoute,

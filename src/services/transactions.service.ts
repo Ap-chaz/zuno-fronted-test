@@ -79,4 +79,15 @@ export const transactionsService = {
     }
     return apiClient.patch<Transaction>(`/transactions/${id}`, { status });
   },
+
+  /** Admin-only: mark/unmark a transaction for manual fraud review. */
+  async toggleFlag(id: string, flagged: boolean): Promise<Transaction> {
+    if (env.useMockApi) {
+      const found = MOCK_TRANSACTIONS.find((t) => t.id === id);
+      if (!found) return mockReject(`Transaction ${id} not found`, 404, "NOT_FOUND");
+      found.flaggedForReview = flagged;
+      return mockResolve(found);
+    }
+    return apiClient.patch<Transaction>(`/transactions/${id}`, { flaggedForReview: flagged });
+  },
 };

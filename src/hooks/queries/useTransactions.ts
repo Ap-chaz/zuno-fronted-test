@@ -41,3 +41,14 @@ export function useUpdateTransactionStatus() {
     },
   });
 }
+
+export function useToggleTransactionFlag() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, flagged }: { id: string; flagged: boolean }) =>
+      transactionsService.toggleFlag(id, flagged),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: transactionKeys.all });
+    },
+  });
+}

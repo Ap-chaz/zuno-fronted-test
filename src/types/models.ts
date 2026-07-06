@@ -20,11 +20,15 @@ export interface Transaction {
   item: string;
   seller: string;
   sellerId: string;
+  /** Buyer's display name. Optional because older seed rows predate this field. */
+  buyerName?: string;
   amount: number;
   currency: "KES";
   date: string;
   status: TxStatus;
   category: string;
+  /** Admin-only: marked for manual fraud review. Not shown to buyers/sellers. */
+  flaggedForReview?: boolean;
 }
 
 export type SellerVerificationTier = "unverified" | "pending" | "verified" | "flagged";

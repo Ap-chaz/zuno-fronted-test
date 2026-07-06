@@ -55,11 +55,10 @@ function AdminHome() {
             desc="Review evidence and decide refund vs. release for open disputes"
           />
           <AdminLink
-            to="/admin"
+            to="/admin/transactions"
             icon={Receipt}
             title="Transaction Monitoring"
-            desc="Coming soon"
-            disabled
+            desc="Search, filter, override status, flag for fraud, and export CSV"
           />
           <AdminLink
             to="/admin"
