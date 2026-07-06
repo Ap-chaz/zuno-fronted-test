@@ -52,3 +52,13 @@ export function useToggleTransactionFlag() {
     },
   });
 }
+
+export function useMarkPayoutPaid() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => transactionsService.markPayoutPaid(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: transactionKeys.all });
+    },
+  });
+}

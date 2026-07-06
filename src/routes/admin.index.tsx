@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ShieldCheck, AlertTriangle, Receipt, BarChart3, Users, LogOut } from "lucide-react";
+import { ShieldCheck, AlertTriangle, Receipt, Wallet, BarChart3, Users, LogOut } from "lucide-react";
 import { PhoneFrame } from "@/components/zuno/PhoneFrame";
 import { TopBar } from "@/components/zuno/TopBar";
 import { AdminGate } from "@/components/zuno/AdminGate";
@@ -59,6 +59,12 @@ function AdminHome() {
             icon={Receipt}
             title="Transaction Monitoring"
             desc="Search, filter, override status, flag for fraud, and export CSV"
+          />
+          <AdminLink
+            to="/admin/payouts"
+            icon={Wallet}
+            title="Payout & Refund Queue"
+            desc="Track seller payouts and buyer refunds owed, mark as sent"
           />
           <AdminLink
             to="/admin"

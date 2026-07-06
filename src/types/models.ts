@@ -29,6 +29,14 @@ export interface Transaction {
   category: string;
   /** Admin-only: marked for manual fraud review. Not shown to buyers/sellers. */
   flaggedForReview?: boolean;
+  /**
+   * Whether the actual money movement has happened yet — releasing escrow
+   * (status = Completed/Refunded) doesn't itself send an M-Pesa/bank
+   * transfer until there's a real payment integration. Admin marks this once
+   * they've manually sent the seller payout or buyer refund. Undefined/
+   * "pending" for anything not yet in a payable state.
+   */
+  payoutStatus?: "pending" | "paid";
 }
 
 export type SellerVerificationTier = "unverified" | "pending" | "verified" | "flagged";
@@ -51,6 +59,10 @@ export interface Seller {
   location?: string;
   description?: string;
   responseRate?: number;
+  /** Where seller payouts should be sent — captured during business verification. */
+  payoutMethod?: "mpesa" | "bank";
+  payoutDetails?: string;
+  payoutBankName?: string;
   links?: {
     instagram?: string;
     facebook?: string;

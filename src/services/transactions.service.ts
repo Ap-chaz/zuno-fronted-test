@@ -90,4 +90,19 @@ export const transactionsService = {
     }
     return apiClient.patch<Transaction>(`/transactions/${id}`, { flaggedForReview: flagged });
   },
+
+  /**
+   * Admin-only: record that the actual money (seller payout or buyer refund)
+   * has been sent. This does NOT move any real money itself — it's a manual
+   * checkbox until a real payment integration exists.
+   */
+  async markPayoutPaid(id: string): Promise<Transaction> {
+    if (env.useMockApi) {
+      const found = MOCK_TRANSACTIONS.find((t) => t.id === id);
+      if (!found) return mockReject(`Transaction ${id} not found`, 404, "NOT_FOUND");
+      found.payoutStatus = "paid";
+      return mockResolve(found);
+    }
+    return apiClient.patch<Transaction>(`/transactions/${id}`, { payoutStatus: "paid" });
+  },
 };
