@@ -42,3 +42,14 @@ export function useMarkAllNotificationsRead() {
     },
   });
 }
+
+export function useSendNotification() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: notificationsService.send,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: notificationKeys.all });
+      queryClient.invalidateQueries({ queryKey: notificationKeys.unreadCount });
+    },
+  });
+}

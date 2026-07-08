@@ -94,6 +94,18 @@ export interface AuthSession {
   token: string;
 }
 
+export type SupportTicketStatus = "open" | "resolved";
+
+export interface SupportTicket {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  status: SupportTicketStatus;
+  createdAt: string;
+}
+
 /**
  * There's no real multi-buyer user table yet (auth only tracks the single
  * logged-in user). This is derived from transaction history instead —
@@ -108,6 +120,7 @@ export interface BuyerSummary {
   disputeCount: number;
   lastTransactionDate: string;
   suspended: boolean;
+  kycStatus: KycStatus;
 }
 
 export interface Notification {

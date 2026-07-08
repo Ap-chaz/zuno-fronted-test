@@ -2,12 +2,25 @@ import { mockResolve } from "@/lib/api/mock-adapter";
 import { env } from "@/config/env";
 import { apiClient } from "@/lib/api/client";
 import { transactionsService } from "@/services/transactions.service";
-import type { BuyerSummary } from "@/types/models";
+import type { BuyerSummary, KycStatus } from "@/types/models";
 
 // In-memory only — resets on reload, same tradeoff as the seller tier
 // overrides in admin.sellers.tsx. Once a real user table exists, suspension
-// belongs on that record, not bolted on here.
+// and KYC status belong on that record, not bolted on here.
 const suspendedBuyers = new Set<string>();
+const kycOverrides = new Map<string, KycStatus>();
+
+// There's no real per-buyer KYC submission data to review (only the current
+// logged-in user's own status exists, in zuno-kyc.ts). This gives each
+// derived buyer a starting status so the admin queue has something to
+// review — deterministic per name, not random, so it doesn't shuffle on
+// every reload.
+function seedKycStatus(name: string): KycStatus {
+  const cycle: KycStatus[] = ["verified", "verified", "pending", "unverified"];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  return cycle[hash % cycle.length];
+}
 
 export const buyersService = {
   async list(): Promise<BuyerSummary[]> {
@@ -34,6 +47,7 @@ export const buyersService = {
             disputeCount: isDispute ? 1 : 0,
             lastTransactionDate: t.date,
             suspended: suspendedBuyers.has(name),
+            kycStatus: kycOverrides.get(name) ?? seedKycStatus(name),
           });
         }
       }
@@ -50,6 +64,14 @@ export const buyersService = {
       return mockResolve<void>(undefined);
     }
     await apiClient.patch(`/buyers/${encodeURIComponent(name)}`, { suspended });
+  },
+
+  async setKycStatus(name: string, status: KycStatus): Promise<void> {
+    if (env.useMockApi) {
+      kycOverrides.set(name, status);
+      return mockResolve<void>(undefined);
+    }
+    await apiClient.patch(`/buyers/${encodeURIComponent(name)}`, { kycStatus: status });
   },
 };
 

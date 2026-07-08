@@ -39,4 +39,26 @@ export const notificationsService = {
     }
     await apiClient.post("/notifications/mark-all-read");
   },
+
+  /**
+   * Admin-only: manually push a notification. In this mock there's a single
+   * shared inbox (no per-user targeting), so this appears in whichever
+   * browser is viewing /app/notifications — good enough to demo the flow,
+   * not real per-user delivery. That needs a backend + push service.
+   */
+  async send(input: { title: string; body: string; type: Notification["type"] }): Promise<Notification> {
+    const created: Notification = {
+      id: `n${Math.random().toString(36).slice(2, 8)}`,
+      title: input.title,
+      body: input.body,
+      type: input.type,
+      read: false,
+      createdAt: new Date().toISOString(),
+    };
+    if (env.useMockApi) {
+      MOCK_NOTIFICATIONS.unshift(created);
+      return mockResolve(created);
+    }
+    return apiClient.post<Notification>("/notifications/send", input);
+  },
 };

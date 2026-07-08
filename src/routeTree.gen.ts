@@ -48,8 +48,11 @@ import { Route as AppNewEscrowRouteImport } from './routes/app.new-escrow'
 import { Route as AppDisputesRouteImport } from './routes/app.disputes'
 import { Route as AppAccountRouteImport } from './routes/app.account'
 import { Route as AdminTransactionsRouteImport } from './routes/admin.transactions'
+import { Route as AdminSupportRouteImport } from './routes/admin.support'
 import { Route as AdminSellersRouteImport } from './routes/admin.sellers'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
+import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
+import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminDisputesRouteImport } from './routes/admin.disputes'
 import { Route as AdminBuyersRouteImport } from './routes/admin.buyers'
 import { Route as AppTransactionIdRouteImport } from './routes/app.transaction.$id'
@@ -251,6 +254,11 @@ const AdminTransactionsRoute = AdminTransactionsRouteImport.update({
   path: '/admin/transactions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSupportRoute = AdminSupportRouteImport.update({
+  id: '/admin/support',
+  path: '/admin/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminSellersRoute = AdminSellersRouteImport.update({
   id: '/admin/sellers',
   path: '/admin/sellers',
@@ -259,6 +267,16 @@ const AdminSellersRoute = AdminSellersRouteImport.update({
 const AdminPayoutsRoute = AdminPayoutsRouteImport.update({
   id: '/admin/payouts',
   path: '/admin/payouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminNotificationsRoute = AdminNotificationsRouteImport.update({
+  id: '/admin/notifications',
+  path: '/admin/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminKycRoute = AdminKycRouteImport.update({
+  id: '/admin/kyc',
+  path: '/admin/kyc',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminDisputesRoute = AdminDisputesRouteImport.update({
@@ -298,8 +316,11 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin/buyers': typeof AdminBuyersRoute
   '/admin/disputes': typeof AdminDisputesRoute
+  '/admin/kyc': typeof AdminKycRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/sellers': typeof AdminSellersRoute
+  '/admin/support': typeof AdminSupportRoute
   '/admin/transactions': typeof AdminTransactionsRoute
   '/app/account': typeof AppAccountRoute
   '/app/disputes': typeof AppDisputesRoute
@@ -344,8 +365,11 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin/buyers': typeof AdminBuyersRoute
   '/admin/disputes': typeof AdminDisputesRoute
+  '/admin/kyc': typeof AdminKycRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/sellers': typeof AdminSellersRoute
+  '/admin/support': typeof AdminSupportRoute
   '/admin/transactions': typeof AdminTransactionsRoute
   '/app/account': typeof AppAccountRoute
   '/app/disputes': typeof AppDisputesRoute
@@ -393,8 +417,11 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/admin/buyers': typeof AdminBuyersRoute
   '/admin/disputes': typeof AdminDisputesRoute
+  '/admin/kyc': typeof AdminKycRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/sellers': typeof AdminSellersRoute
+  '/admin/support': typeof AdminSupportRoute
   '/admin/transactions': typeof AdminTransactionsRoute
   '/app/account': typeof AppAccountRoute
   '/app/disputes': typeof AppDisputesRoute
@@ -443,8 +470,11 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/buyers'
     | '/admin/disputes'
+    | '/admin/kyc'
+    | '/admin/notifications'
     | '/admin/payouts'
     | '/admin/sellers'
+    | '/admin/support'
     | '/admin/transactions'
     | '/app/account'
     | '/app/disputes'
@@ -489,8 +519,11 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/buyers'
     | '/admin/disputes'
+    | '/admin/kyc'
+    | '/admin/notifications'
     | '/admin/payouts'
     | '/admin/sellers'
+    | '/admin/support'
     | '/admin/transactions'
     | '/app/account'
     | '/app/disputes'
@@ -537,8 +570,11 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/buyers'
     | '/admin/disputes'
+    | '/admin/kyc'
+    | '/admin/notifications'
     | '/admin/payouts'
     | '/admin/sellers'
+    | '/admin/support'
     | '/admin/transactions'
     | '/app/account'
     | '/app/disputes'
@@ -586,8 +622,11 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   AdminBuyersRoute: typeof AdminBuyersRoute
   AdminDisputesRoute: typeof AdminDisputesRoute
+  AdminKycRoute: typeof AdminKycRoute
+  AdminNotificationsRoute: typeof AdminNotificationsRoute
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminSellersRoute: typeof AdminSellersRoute
+  AdminSupportRoute: typeof AdminSupportRoute
   AdminTransactionsRoute: typeof AdminTransactionsRoute
   AuthForgotRoute: typeof AuthForgotRoute
   AuthKycRoute: typeof AuthKycRoute
@@ -873,6 +912,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTransactionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/support': {
+      id: '/admin/support'
+      path: '/admin/support'
+      fullPath: '/admin/support'
+      preLoaderRoute: typeof AdminSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/sellers': {
       id: '/admin/sellers'
       path: '/admin/sellers'
@@ -885,6 +931,20 @@ declare module '@tanstack/react-router' {
       path: '/admin/payouts'
       fullPath: '/admin/payouts'
       preLoaderRoute: typeof AdminPayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/notifications': {
+      id: '/admin/notifications'
+      path: '/admin/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AdminNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/kyc': {
+      id: '/admin/kyc'
+      path: '/admin/kyc'
+      fullPath: '/admin/kyc'
+      preLoaderRoute: typeof AdminKycRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/disputes': {
@@ -1005,8 +1065,11 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   AdminBuyersRoute: AdminBuyersRoute,
   AdminDisputesRoute: AdminDisputesRoute,
+  AdminKycRoute: AdminKycRoute,
+  AdminNotificationsRoute: AdminNotificationsRoute,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminSellersRoute: AdminSellersRoute,
+  AdminSupportRoute: AdminSupportRoute,
   AdminTransactionsRoute: AdminTransactionsRoute,
   AuthForgotRoute: AuthForgotRoute,
   AuthKycRoute: AuthKycRoute,

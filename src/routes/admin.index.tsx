@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo } from "react";
-import { ShieldCheck, AlertTriangle, Receipt, Wallet, BarChart3, Users, LogOut, Clock, TrendingUp } from "lucide-react";
+import { ShieldCheck, AlertTriangle, Receipt, Wallet, BarChart3, Users, LogOut, Clock, TrendingUp, BadgeCheck, LifeBuoy, Bell } from "lucide-react";
 import { PhoneFrame } from "@/components/zuno/PhoneFrame";
 import { TopBar } from "@/components/zuno/TopBar";
 import { AdminGate } from "@/components/zuno/AdminGate";
@@ -120,6 +120,24 @@ function AdminHome() {
             icon={Users}
             title="Buyer Accounts"
             desc="Search buyers, view activity, suspend or reinstate"
+          />
+          <AdminLink
+            to="/admin/kyc"
+            icon={BadgeCheck}
+            title="KYC & Compliance"
+            desc="Approve or reject pending buyer identity verification"
+          />
+          <AdminLink
+            to="/admin/support"
+            icon={LifeBuoy}
+            title="Support Tickets"
+            desc="See who's contacted support and mark issues resolved"
+          />
+          <AdminLink
+            to="/admin/notifications"
+            icon={Bell}
+            title="Notifications"
+            desc="Manually send a notification and see recent sends"
           />
           <AdminLink
             to="/admin"
