@@ -34,4 +34,15 @@ export const sellersService = {
       return matchesCategory && matchesQuery;
     });
   },
+
+  /** Admin-only: suspend hides a seller from buyer listings regardless of verification tier. */
+  async toggleSuspend(id: string, suspended: boolean): Promise<Seller> {
+    if (env.useMockApi) {
+      const found = MOCK_SELLERS.find((s) => s.id === id);
+      if (!found) return mockReject(`Seller ${id} not found`, 404, "NOT_FOUND");
+      found.suspended = suspended;
+      return mockResolve(found);
+    }
+    return apiClient.patch<Seller>(`/sellers/${id}`, { suspended });
+  },
 };

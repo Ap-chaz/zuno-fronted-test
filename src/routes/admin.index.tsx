@@ -140,18 +140,16 @@ function AdminHome() {
             desc="Manually send a notification and see recent sends"
           />
           <AdminLink
-            to="/admin"
+            to="/admin/analytics"
             icon={BarChart3}
             title="Analytics Dashboard"
-            desc="Coming soon"
-            disabled
+            desc="Volume trends, status breakdown, top sellers"
           />
           <AdminLink
-            to="/admin"
+            to="/admin/seller-accounts"
             icon={ShieldCheck}
             title="Seller Accounts"
-            desc="Full seller directory beyond verification — coming soon"
-            disabled
+            desc="Full directory, search, suspend or reinstate"
           />
         </div>
       </div>

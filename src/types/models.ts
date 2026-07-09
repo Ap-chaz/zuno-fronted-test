@@ -63,6 +63,8 @@ export interface Seller {
   payoutMethod?: "mpesa" | "bank";
   payoutDetails?: string;
   payoutBankName?: string;
+  /** Admin-only: account suspended, hidden from buyer listings regardless of verification tier. */
+  suspended?: boolean;
   links?: {
     instagram?: string;
     facebook?: string;

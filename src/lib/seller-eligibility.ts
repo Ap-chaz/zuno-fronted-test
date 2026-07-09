@@ -17,6 +17,7 @@ export function getSellerTier(seller: Seller): SellerVerificationTier {
  * just not surfaced to buyers yet.
  */
 export function isEligibleForDisplay(seller: Seller): boolean {
+  if (seller.suspended) return false;
   const tier = getSellerTier(seller);
   const disputes = seller.disputeCount ?? 0;
   return tier === "verified" && disputes === 0;

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sellersService } from "@/services/sellers.service";
 
 export const sellerKeys = {
@@ -27,5 +27,16 @@ export function useSellerSearch(query: string, category: string) {
     queryKey: sellerKeys.search(query, category),
     queryFn: () => sellersService.search(query, category),
     placeholderData: (prev) => prev,
+  });
+}
+
+export function useToggleSellerSuspend() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, suspended }: { id: string; suspended: boolean }) =>
+      sellersService.toggleSuspend(id, suspended),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: sellerKeys.all });
+    },
   });
 }
